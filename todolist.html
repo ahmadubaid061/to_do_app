@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To Do List</title>
+    <style>
+      body {
+        background-color: #c5d7f1;
+        justify-items: center;
+        padding: 20px 10px;
+      }
+      .todo {
+        width: 70%;
+        height: fit-content;
+        padding: 20px 20px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        place-items: center;
+      }
+      form {
+        width: 90%;
+        padding: 20px 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        background-color: #c5d7f1;
+        border-radius: 10px;
+      }
+      label,
+      #title {
+        height: 40px;
+        font-size: 30px;
+      }
+      input,
+      #btnAdd {
+        border-radius: 10px;
+      }
+
+      button {
+        cursor: pointer;
+        background-color: #3b82f6;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 6px;
+      }
+      .content {
+        width: 90%;
+        background-color: #c5d7f1;
+        border-radius: 10px;
+        padding: 20px 20px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .item {
+        border-radius: 10px;
+        background-color: #ffffff;
+        border: 1px solid #dbeafe;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+      }
+      .status {
+        background-color: rgba(79, 173, 79, 0.699);
+      }
+      .text h3 {
+        margin: 0;
+        font-size: 30px;
+      }
+
+      .actions {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .actions input {
+        transform: scale(1.2);
+      }
+
+      .delete {
+        background-color: #ef4444;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Welcome To Task Manager</h1>
+    <div class="todo">
+      <form action="#">
+        <div>
+          <label for="title"><strong>Title :*</strong></label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            placeholder="Enter a title"
+            required
+          />
+        </div>
+        <button id="btnAdd">Add Task</button>
+      </form>
+      <div class="content"></div>
+    </div>
+    <script>
+      const btnAdd = document.querySelector("#btnAdd");
+      const container = document.querySelector(".content");
+      // function for adding a new task
+      function additem(e) {
+        e.preventDefault();
+        const title = document.querySelector("#title").value;
+        if (!title.trim()) {
+          alert("Please Enter a title!");
+        } else {
+          const html = `<div class="item">
+            <div class="text">
+              <h3>${title}</h3>
+            </div>
+
+            <div class="actions">
+              <label> Done:<input type="checkbox" /> </label>
+              <button class="delete">Remove</button>
+            </div>
+          </div>`;
+          container.insertAdjacentHTML("afterbegin", html);
+          document.querySelector("#title").value = ""; //it will cleat the input field
+        }
+      }
+      btnAdd.addEventListener("click", additem);
+
+      //changing color of the task card on checking the checkbox
+      container.addEventListener("click", function (e) {
+        if (e.target.type === "checkbox") {
+          const item = e.target.closest(".item");
+          item.classList.toggle("status", e.target.checked);
+        }
+      });
+      //function for deleting a task
+      container.addEventListener("click", function (e) {
+        if (e.target.classList.contains("delete")) {
+          const element = e.target.closest(".item");
+          element.remove();
+        }
+      });
+    </script>
+  </body>
+</html>
